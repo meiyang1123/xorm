@@ -48,6 +48,12 @@ func regDrvsNDialects() bool {
 	}
 	return true
 }
+func RegisterSqliteMemoDB(driverName string)  {
+	if driver := core.QueryDriver(driverName); driver == nil {
+		core.RegisterDriver(driverName, &sqlite3Driver{})
+		core.RegisterDialect(core.DbType(driverName),func() core.Dialect { return &sqlite3{} })
+	}
+}
 
 func close(engine *Engine) {
 	engine.Close()
